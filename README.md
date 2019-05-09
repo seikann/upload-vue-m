@@ -1,7 +1,6 @@
 # upload-vue-m
 
 > 基于vue的图片上传插件，移动PC皆可
-
 ## Build Setup
 
 ``` bash
@@ -31,5 +30,6 @@ Vue.use(upload)
       isRepeat=""> // 设置是否允许上传重复图片 Boolean
     </seikann-upload>
 ```
+源码地址：https://github.com/seikann/upload-vue-m
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
