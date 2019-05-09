@@ -1,5 +1,5 @@
 # upload-vue-m
-
+[![NPM version](https://img.shields.io/npm/v/upload-vue-m.svg)](https://www.npmjs.com/package/upload-vue-m)
 > 基于vue的图片上传插件，移动PC皆可
 ## Build Setup
 
@@ -12,13 +12,15 @@ npm run dev
 
 # build for production with minification
 npm run build
-
-<!--例子-->
+```
+## 例
 在main.js中引入
+```js
 import upload from 'upload-vue-m'
 Vue.use(upload)
-
+```
 在组件中使用
+``` html
 <seikann-upload
       @getWarning="getWarn" // 获取警告
       @getImages="getImages" // 获取需要上传的图文件流。适用于formdata格式上传
