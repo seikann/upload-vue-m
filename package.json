@@ -1,7 +1,7 @@
 {
   "name": "upload-vue-m",
   "description": "基于vue的图片上传插件",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "seikann <390811346@qq.com>",
   "license": "MIT",
   "private": false,
