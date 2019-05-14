@@ -23,7 +23,7 @@ Vue.use(upload)
 ``` html
 <seikann-upload
       @getWarning="getWarn" // 获取警告
-      @getImages="getImages" // 获取需要上传的图文件流。适用于formdata格式上传
+      @getImages="getImages" // 获取需要上传的图文件流。fileList适用于formdata格式上传 和 showList图片展示
       uploadStyle="" // 设置上传dom样式 Object  例{width: '80px', height: '80px'}
       closeBtnStyle="" // 设置关闭按钮样式 Object
       accept="" // 设置上传文件格式 String
@@ -32,6 +32,6 @@ Vue.use(upload)
       isRepeat=""> // 设置是否允许上传重复图片 Boolean
     </seikann-upload>
 ```
-源码地址：https://github.com/seikann/upload-vue-m
+源码地址：[https://github.com/seikann/upload-vue-m](https://github.com/seikann/upload-vue-m)
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
