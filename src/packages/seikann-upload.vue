@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import EXIF from './exif-js'
+
 export default {
   name: 'seikann-upload',
   props: {
@@ -66,7 +68,7 @@ export default {
     },
     maxSize: {
       type: Number,
-      default: 5
+      default: 10
     },
     maxLength: {
       type: Number,
@@ -109,14 +111,35 @@ export default {
       if (window.FileReader) {
         let reader = new FileReader()
         reader.readAsDataURL(file)
-        reader.addEventListener("load", () => {
-          this.imgShowList.push(reader.result)
-          this.imageList.push(file)
-          this.inputValList.push(val)
-          e.target.value = ''
-          this.$emit('getImages', {
-            fileList: this.imageList,
-            showList: this.imgShowList
+        reader.addEventListener("load", (event) => {
+          // console.log(event)
+          // this.imgShowList.push(reader.result)
+          // this.imageList.push(file)
+          // this.inputValList.push(val)
+          // e.target.value = ''
+          // this.$emit('getImages', {
+          //   fileList: this.imageList,
+          //   showList: this.imgShowList
+          // })
+          let _this = this
+          let orient = this.getImgOrientation(file)
+          orient.then(res => {
+            const image = new Image()
+            image.src = URL.createObjectURL(file)
+            image.addEventListener("load", function () {
+              let w = this.width
+              let h = this.height
+              let pic = _this.compressImg(image, w, h, 0.7, res)
+              const newFile = _this.convertBase64UrlToBlob(pic);
+              _this.imgShowList.push(pic)
+              _this.imageList.push(newFile)
+              _this.inputValList.push(val)
+              e.target.value = ''
+              _this.$emit('getImages', {
+                fileList: _this.imageList,
+                showList: _this.imgShowList
+              })
+            })
           })
         }, false)
       }
@@ -129,6 +152,51 @@ export default {
         fileList: this.imageList,
         showList: this.imgShowList
       })
+    },
+    getImgOrientation(img) {
+      return new Promise((resolve, reject) => {
+        let orient = 0
+        EXIF.getData(img, function () {
+          orient = EXIF.getTag(this, 'Orientation')
+          resolve(orient)
+        })
+      })
+    },
+    compressImg(img, width, height, ratio, orient) {
+      let canvas, ctx, img64
+
+      // //获取图片方向
+      // orient = this.getImgOrientation(img)
+
+      canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+
+      ctx = canvas.getContext("2d")
+
+      //如果图片方向等于6 ，则旋转矫正，反之则不做处理
+      if (orient === 6) {
+        ctx.save()
+        ctx.translate(width / 2, height / 2)
+        ctx.rotate(90 * Math.PI / 180)
+        ctx.drawImage(img, 0 - height / 2, 0 - width / 2, height, width)
+        ctx.restore()
+      } else {
+        ctx.drawImage(img, 0, 0, width, height)
+      }
+
+      img64 = canvas.toDataURL("image/jpeg", ratio)
+      return img64
+    },
+    convertBase64UrlToBlob(urlData) {
+      const bytes = window.atob(urlData.split(',')[1]); // 去掉url的头，并转换为byte
+      // 处理异常,将ascii码小于0的转换为大于0
+      const ab = new ArrayBuffer(bytes.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+      }
+      return new Blob([ab], {type: 'image/png'});
     }
   }
 }
@@ -147,7 +215,8 @@ export default {
     box-sizing: border-box;
     font-size: 32px;
   }
-  .upload-img:last-child{
+
+  .upload-img:last-child {
     margin-right: 0;
   }
 

@@ -1,15 +1,25 @@
 {
   "name": "upload-vue-m",
   "description": "基于vue的图片上传插件",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": "seikann <390811346@qq.com>",
   "license": "MIT",
   "private": false,
   "main": "dist/upload-vue-m.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --host 172.16.4.235",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
+  "keywords": [
+    "vue",
+    "upload",
+    "图片上传",
+    "上传",
+    "图片压缩",
+    "多图上传",
+    "图片旋转",
+    "ios rotate"
+  ],
   "dependencies": {
     "vue": "^2.5.11"
   },
