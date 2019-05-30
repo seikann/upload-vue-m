@@ -124,15 +124,19 @@ export default {
           let _this = this
           let orient = this.getImgOrientation(file)
           orient.then(res => {
+            console.log(file)
             const image = new Image()
             image.src = URL.createObjectURL(file)
             image.addEventListener("load", function () {
               let w = this.width
               let h = this.height
               let pic = _this.compressImg(image, w, h, 0.7, res)
-              const newFile = _this.convertBase64UrlToBlob(pic);
+              // base64 转 blob
+              let newFile = _this.convertBase64UrlToBlob(pic)
+              // blob 转 file
+              let files = new window.File([newFile], file.name, {type: file.type})
               _this.imgShowList.push(pic)
-              _this.imageList.push(newFile)
+              _this.imageList.push(files)
               _this.inputValList.push(val)
               e.target.value = ''
               _this.$emit('getImages', {
