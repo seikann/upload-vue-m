@@ -60,6 +60,7 @@ Vue.use(upload)
 |  ------ | ------ | ------ |
 | getWarning | event | 获取警告信息 |
 | getImages | event | 获取需要上传的图文件流。fileList适用于formdata格式上传 和 showList图片展示 |
+
 源码地址：[https://github.com/seikann/upload-vue-m](https://github.com/seikann/upload-vue-m)
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
